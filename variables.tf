@@ -7,5 +7,5 @@ variable "instance_type" {
 }
 
 variable "bucket_name" {
-  default = "my-terraform-bucket-192837465"
+  default = "my-terraform-bucket-burraq-2026"
 }
