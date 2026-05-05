@@ -27,7 +27,7 @@ module "ec2_instance" {
 
 module "s3_bucket" {
   source      = "./s3-bucket-module"
-  bucket_name = var.bucket_name
+  bucket_name = "${var.bucket_name}-${terraform.workspace}"
 }
 
 module "vpc" {
@@ -41,6 +41,7 @@ module "vpc" {
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 
   enable_nat_gateway = true
+  single_nat_gateway = true
   enable_vpn_gateway = true
 
   tags = {
