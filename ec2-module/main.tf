@@ -1,9 +1,10 @@
 resource "aws_instance" "my_ec2" {
-  ami = var.ami
+  ami           = var.ami
   instance_type = var.instance_type
+  subnet_id     = var.subnet_id
 
   tags = {
-    Name = var.instance_name
+    Name        = var.instance_name
     Environment = terraform.workspace
   }
 }

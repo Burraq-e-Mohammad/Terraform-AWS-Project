@@ -4,10 +4,10 @@ provider "aws" {
 
 data "aws_ami" "amazon_linux" {
   most_recent = true
-  owners = ["amazon"]
+  owners      = ["amazon"]
 
   filter {
-    name = "name"
+    name   = "name"
     values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
 }
@@ -17,14 +17,16 @@ locals {
 }
 
 module "ec2_instance" {
-  source = "./ec2-module"
-  ami = data.aws_ami.amazon_linux.id
+  source        = "./ec2-module"
+  ami           = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
   instance_name = local.name_tag
+  subnet_id     = module.vpc.public_subnets[0]
+  depends_on    = [module.s3_bucket, module.vpc]
 }
 
 module "s3_bucket" {
-  source = "./s3-bucket-module"
+  source      = "./s3-bucket-module"
   bucket_name = var.bucket_name
 }
 
@@ -42,7 +44,7 @@ module "vpc" {
   enable_vpn_gateway = true
 
   tags = {
-    Terraform = "true"
+    Terraform   = "true"
     Environment = "dev"
   }
 }
